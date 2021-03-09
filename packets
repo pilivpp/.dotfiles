@@ -48,8 +48,6 @@ function install_debian {
         gnupg \
         neovim \
         zsh \
-        terminator \
-        chrome-gnome-shell \
         trash-cli \
         libncursesw5 \
         gtk+3.0 \
@@ -57,62 +55,21 @@ function install_debian {
         libusb-dev \
         inkscape \
         x11-apps \
-        openvpn \
-        docker \
         curl \
         xclip \
-        conky-all \
         xdotool \
         libgtop-2.0-11 \
         gir1.2-gtop-2.0 \
-        gnome-tweak-tool \
         apt-transport-https \
         ca-certificates \
-        curl \
         gnupg-agent \
-        software-properties-common \
-        w3m \
-        pdftk
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository \
-            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) \
-            stable"
-        sudo apt-get update
-        sudo apt-get install docker-ce docker-ce-cli containerd.io
-    (
-        cd /tmp
-        for packet in https://downloads.slack-edge.com/linux_releases/slack-desktop-4.4.0-amd64.deb https://zoom.us/client/latest/zoom_amd64.deb https://clockify-resources.s3.eu-central-1.amazonaws.com/downloads/Clockify_Setup.deb
-        do
-            name="$(echo $packet | rev | cut -d'/' -f 1 | rev)"
-            if [ ! -f "$name.deb" ]; then
-                curl -L --output "$name.deb" "${packet}"
-            fi
-            sudo dpkg -i "$name.deb" || (sudo apt-get install -f -y && sudo dpkg -i "$name.deb")
-            rm "$name.deb"
-        done
-    )
-
-    # snap
-    for app in code whatsdesk telegram-desktop caprine google-cloud-sdk kubectl; do
-        if ! snap list | grep "${app}"
-        then
-            snap install --classic "${app}"
-        fi
-    done
-    for app in spotify doctl bump; do
-        if ! snap list | grep "${app}"
-        then
-            snap install "${app}"
-        fi
-    done
+        software-properties-common 
     for app in fasd; do
         if ! snap list | grep "${app}"
         then
             snap install --beta "${app}"
         fi
     done
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/KaizIqbal/Bibata_Cursor/master/Bibata.sh)"
 }
 
 function install_osx {
@@ -179,29 +136,5 @@ fi
 install_fonts
 
 curl -L https://cht.sh/:cht.sh > ~/bin/cht.sh
-curl -L git.io/trans -o ~/bin/trans
 
-sudo chmod -x ~/bin/*
-
-for repo in "syndbg/goenv" "tfutils/tfenv"
-do
-    setup_binary_env $repo
-done
-
-$HOME/.tfenv/bin/tfenv install
-
-(
-  cd "$(mktemp -d)" &&
-  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}" &&
-  tar zxvf krew.tar.gz &&
-  KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64" &&
-  "$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
-  "$KREW" update
-)
-
-for plugin in ctx ns cssh view-utilization view-secret; do
-    zsh -c "kubectl krew install $plugin"
-done
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-wget -O - https://github.com/shvchk/fallout-grub-theme/raw/master/install.sh | bash
+sudo chmod +x ~/bin/*

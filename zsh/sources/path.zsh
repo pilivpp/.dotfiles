@@ -5,10 +5,6 @@ if [ ! "$PATH_LOADED" = "true" ]; then
     # export GPG_TTY=$(tty) # Use actual tty when prompting for GPG passwords
     export LANG=en_US.UTF-8 # Default language
     export LC_ALL=en_US.UTF-8
-    export GOENV_ROOT="$HOME/.goenv"
-    export PATH="$GOENV_ROOT/bin:$PATH"
-    export PATH="$DOTFILES/bin:$PATH"
-    eval "$(goenv init -)"
 
     export PATH="$GOROOT/bin:$PATH"
     export PATH="$PATH:$GOPATH/bin"

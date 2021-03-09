@@ -37,7 +37,6 @@ zinit light peterhurford/git-it-on.zsh
 zinit light denysdovhan/spaceship-prompt
 
 zinit light MichaelAquilina/zsh-you-should-use
-YSU_HARDCORE=1
 
 zinit light hlissner/zsh-autopair
 
@@ -50,16 +49,9 @@ zinit light laggardkernel/zsh-thefuck
 # zinit ice as"program" pick"git-hooks"
 # zinit load icefox/git-hooks
 
-zinit ice from"gh-r" as"program" mv"jira* -> jira"
-zinit load go-jira/jira
 
-zinit ice from"gh-r" as"program" mv"yaml2json* -> yaml2json"
-zinit load wakeful/yaml2json
 
 if [ "$(uname | tolower)" = "linux" ]; then
-    zinit ice from"gh-r" as"program" pick"build/x86_64-linux/broot"
-    zinit load Canop/broot
-
     zinit ice from"gh-r" as"program" bpick"*.deb" pick"usr/bin/interactive-rebase-tool"
     zinit load MitMaro/git-interactive-rebase-tool
 fi
@@ -69,54 +61,12 @@ if [ "$(uname | tolower)" = "darwin" ]; then
     zinit load MitMaro/git-interactive-rebase-tool
 fi
 
-# zinit ice from"gh-r" as"program" mv"docker* -> docker-compose"
-# zinit load docker/compose
 
-# function helm-plugins-install() {
-#     if ! helm plugin list | grep -q diff; then
-#         helm plugin install https://github.com/databus23/helm-diff --version master
-#     fi
-#     if ! helm plugin list | grep -vq diff; then
-#         helm plugin install https://github.com/futuresimple/helm-secrets
-#     fi
-#     if ! helm plugin list | grep -q gcs; then
-#         helm plugin install https://github.com/hayorov/helm-gcs
-#     fi
-# }
 
-# zinit id-as=helm as='monitor|program' extract \
-#     dlink="https://get.helm.sh/helm-%VERSION%-$(uname | tolower)-amd64.tar.gz" \
-#     pick"$(uname | tolower)-amd64/helm" \
-#     atload"helm-plugins-install" \
-#     is-snippet for https://github.com/helm/helm/releases/
-
-# zplugin id-as'sentinel' as'monitor|program' extract \
-#     dlink0'/sentinel/%VERSION%/' \
-#     dlink="/sentinel/%VERSION%/sentinel_%VERSION%_$(uname | tolower)_amd64.zip" \
-#     mv"sentinel* -> sentinel" \
-#     pick"sentinel/sentinel" for \
-#         http://releases.hashicorp.com/sentinel/
-
-zinit ice from"gh-r" as"program" mv"helmsman* -> helmsman"
-zinit load Praqma/helmsman
-
-function terraformer-install() {
-    GO111MODULE=on go mod vendor
-    go run build/main.go google
-    go run build/main.go cloudflare
-    echo 'provider "google" {}' >init.tf
-    echo 'provider "cloudflare" {}' >>init.tf
-    terraform init
-}
-
-zinit ice as"program" atclone"terraformer-install" atpull'%atclone' pick"terraformer-{google,cloudflare}"
-zinit load GoogleCloudPlatform/terraformer
 
 zinit ice from"gh-r" as"program" mv"jq* -> jq"
 zinit load stedolan/jq
 
-zinit ice from"gh-r" as"program" mv"jiq* -> jiq"
-zinit load fiatjaf/jiq
 
 function _ls-aliases() {
     alias ls="colorls --almost-all --git-status --group-directories-first"
@@ -129,24 +79,9 @@ function _ls-aliases() {
 zinit ice gem'!colorls' atload"_ls-aliases" id-as'colorls'
 zinit load zdharma/null
 
-function _eyaml-alias() {
-    if [ -f '~/.zinit/plugins/hiera-eyaml/bin/eyaml' ]; then
-        mv '~/.zinit/plugins/hiera-eyaml/bin/eyaml' '~/.zinit/plugins/hiera-eyaml/bin/hiera-eyaml'
-    fi
-    alias eyaml="EDITOR='code --wait' hiera-eyaml"
-}
-
-zinit ice gem'!hiera-eyaml' id-as'hiera-eyaml' atload'_eyaml-alias'
-zinit load zdharma/null
-
-zinit ice from"gh-r" as"program" mv"shfmt* -> shfmt"
-zinit load mvdan/sh
-
 zinit ice from"gh-r" as"program" mv"peco* -> peco" pick"peco/peco"
 zinit load peco/peco
 
-zinit ice from"gh-r" as"program" bpick"*.tar.gz" mv"gopass* -> gopass" pick"gopass/gopass"
-zinit load gopasspw/gopass
 
 zinit ice from"gh-r" as"program"
 zinit load dduan/tre

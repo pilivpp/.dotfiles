@@ -7,7 +7,6 @@
       stdout: true
 - create:
   - "$HOME/bin"
-  - "$HOME/.terraform-plugins"
 - shell:
   - command: ./packets
     stdin: true
@@ -19,10 +18,6 @@
 - link:
     ~/.config/broot/conf.toml:
       path: broot.toml
-    ~/.config/conky:
-      path: conky
-    ~/.local/share/applications/show-desktop.desktop:
-      path: applications/show-desktop.desktop
     ~/.peco/config.json:
       path: peco.json
     ~/.config/nvim/colors/molokai.vim:
@@ -37,23 +32,6 @@
     ~/.config/Code/User/keybindings.json:
       path: keybindings.json
       if: uname -a | grep -iq ubuntu
-    ~/Library/Application Support/Code/User/settings.json:
-      path: vscode/settings.json
-      if: uname -a | grep -iq darwin
-    ~/Library/Application Support/Code/User/keybindings.json:
-      path: vscode/keybindings.json
-      if: uname -a | grep -iq darwin
-    ~/.icons:
-      path: gnome/icons
-      if: gnome-shell --version
-    ~/.themes:
-      path: gnome/themes
-      if: gnome-shell --version
-    ~/.local/share/gnome-shell/extensions:
-      path: gnome/extensions
-      if: gnome-shell --version
     ~/.config/terminator/config:
       path: terminator.config
       if: terminator --version
-- shell:
-  - for ext in $(gnome-extensions list); do gnome-extensions enable $ext; done || echo 'no gnome'
